@@ -1,4 +1,5 @@
 import randomWords from "random-words";
+import { BsGithub } from "react-icons/bs";
 
 import Words from "./components/Words";
 import Inputs from "./components/Inputs";
@@ -118,6 +119,8 @@ const App = () => {
     }
   };
 
+  const wordRef = useRef();
+
   const refreshHandler = () => {
     setWords(getRandomWords());
     setCurIndex(0);
@@ -130,12 +133,14 @@ const App = () => {
     setCurWordIndex(0);
     inputRef.current.focus();
     inputRef.current.disabled = false;
+    wordRef?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <Container>
       <div>
         <div className="text-white">
+          <p>Choose duration below every try (default will be 60 seconds)</p>
           <div>
             <button
               type="button"
@@ -159,7 +164,9 @@ const App = () => {
               60
             </button>
           </div>
-          <div className="mb-8 ">Duration: {counter} seconds</div>
+          <div className="mb-8 mt-4 font-semibold">
+            TIMER: {counter} seconds
+          </div>
         </div>
         <div className="text-white mb-1">
           Accuracy:{" "}
@@ -172,7 +179,7 @@ const App = () => {
           </span>
         </div>
         <div className="text-white mb-4">
-          WPM: <span>{correct !== 0 && correct + "per Minute"} </span>
+          WPM: <span>{correct !== 0 && correct + " per Minute"} </span>
         </div>
       </div>
       <Words
@@ -182,6 +189,7 @@ const App = () => {
         wordIndex={curWordIndex}
         curChar={curChar}
         status={status}
+        wordRef={wordRef}
       />
       <Inputs
         onCharChange={onChangeHandler}
@@ -197,6 +205,15 @@ const App = () => {
       >
         Try Again
       </button>
+      <div className="mt-[8rem] flex justify-center items-center">
+        <a
+          href="https://github.com/ssatriya/typingtest-react"
+          className="text-yellow-400"
+          target="__blank"
+        >
+          Visit GitHub for Repo
+        </a>
+      </div>
     </Container>
   );
 };
