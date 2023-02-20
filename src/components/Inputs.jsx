@@ -1,7 +1,5 @@
 import React from "react";
 
-import BlurText from "./UI/BlurText";
-
 const Inputs = ({
   onCharChange,
   setInputWords,

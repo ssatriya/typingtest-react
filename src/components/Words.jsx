@@ -21,9 +21,9 @@ const Words = ({
 
   const styles = (charIdx, char) => {
     if (charIdx === charIndex && curChar[charIdx] !== char) {
-      return " bg-red-400 bg-opacity-50";
+      return " bg-red-400 ease-in-out text-black";
     } else if (charIdx === charIndex && curChar[charIdx] === char) {
-      return " bg-green-400 bg-opacity-50";
+      return " bg-green-400 ease-in-out text-black";
     } else {
       return "";
     }
@@ -34,7 +34,7 @@ const Words = ({
       {isBlur && (
         <BlurText
           className={
-            "absolute top-[50%] translate-y-[-50%] text-white font-semibold w-full text-center "
+            "absolute top-[50%] translate-y-[-50%] text-yellow-400 font-semibold w-full text-center "
           }
         >
           Click here and start typing
@@ -55,8 +55,8 @@ const Words = ({
                       <span
                         className={
                           correctWord[i]?.isTrue
-                            ? "border-b-4 border-x-0 border-t-0 border-green-400 ease-in-out duration-100"
-                            : "border-b-4 border-x-0 border-t-0 border-red-400 ease-in-out duration-100"
+                            ? "border-b-4 border-x-0 border-t-0 border-green-500 ease-in-out duration-100"
+                            : "border-b-4 border-x-0 border-t-0 border-red-500 ease-in-out duration-100"
                         }
                       >
                         {word}
@@ -68,24 +68,14 @@ const Words = ({
                       ref={wordRef}
                     >
                       {word.split("").map((w, idx) => (
-                        <span key={idx} className={styles(idx, w)}>
+                        <span
+                          key={idx}
+                          className={styles(idx, w)}
+                          ref={wordRef}
+                        >
                           {w}
                         </span>
                       ))}
-                      {/* {word.split("").map((w, idx) =>
-                      idx === charIndex && curChar !== w ? (
-                        <span key={idx} className="bg-pink-400">
-                          {w}
-                        </span>
-                      ) : idx === charIndex && curChar === w ? (
-                        <span key={idx} className="bg-blue-400">
-                          {w}
-                        </span>
-                      ) : (
-                        <span key={idx}>{w}</span>
-                      )
-                    )} */}
-                      {/* {word} */}
                     </span>
                   ) : (
                     <span className="opacity-50">{word}</span>
