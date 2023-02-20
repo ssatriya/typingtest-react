@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 
-const Words = ({ randomWords, correctWord, curWordIndex, wordRef, status }) => {
-  console.log("render words");
-  console.log(status);
-
+const Words = ({ randomWords, correctWord, curWordIndex, wordRef }) => {
   useEffect(() => {
     if (!wordRef) {
       return;
