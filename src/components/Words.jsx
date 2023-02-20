@@ -1,15 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 
-const Words = ({
-  randomWords,
-  correctWord,
-  charIndex,
-  wordIndex,
-  curChar,
-  status,
-  wordRef,
-}) => {
-  // console.log(wordIndex);
+const Words = ({ randomWords, correctWord, curWordIndex, wordRef, status }) => {
+  console.log("render words");
+  console.log(status);
 
   useEffect(() => {
     if (!wordRef) {
@@ -21,7 +14,7 @@ const Words = ({
 
   return (
     <div className="flex justify-center items-center mb-8">
-      <div className="w-[800px] h-[105px] bg-slate-300 flex justify-center items-center">
+      <div className="w-[250px] h-[105px] sm:w-[570px] md:w-[700px] lg:w-[800px] bg-slate-300 flex justify-center items-center">
         <div className="w-[800px] h-[85px] bg-slate-300 overflow-hidden text-ellipsis px-4 flex-col items-center justify-center">
           <p className="block w-[100%] break-words">
             {randomWords.map((word, i) => (
@@ -36,7 +29,7 @@ const Words = ({
                       {word}
                     </span>
                   )
-                ) : i === wordIndex ? (
+                ) : i === curWordIndex ? (
                   <span
                     className="bg-black bg-opacity-30 py-1 px-1"
                     ref={wordRef}
