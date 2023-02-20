@@ -1,6 +1,16 @@
 import React, { useEffect } from "react";
 
-const Words = ({ randomWords, correctWord, curWordIndex, wordRef }) => {
+import BlurText from "./UI/BlurText";
+
+const Words = ({
+  randomWords,
+  correctWord,
+  curWordIndex,
+  wordRef,
+  charIndex,
+  curChar,
+  isBlur,
+}) => {
   useEffect(() => {
     if (!wordRef) {
       return;
@@ -9,39 +19,84 @@ const Words = ({ randomWords, correctWord, curWordIndex, wordRef }) => {
     }
   }, [correctWord]);
 
+  const styles = (wordIdx, char) => {
+    if (wordIdx === charIndex && curChar !== char) {
+      return " bg-red-400 bg-opacity-50";
+    } else if (wordIdx === charIndex && curChar === char) {
+      return " bg-green-400 bg-opacity-50";
+    } else {
+      return "";
+    }
+  };
+
   return (
-    <div className="flex justify-center items-center mb-8">
-      <div className="w-[250px] h-[105px] sm:w-[570px] md:w-[700px] lg:w-[800px] bg-slate-300 flex justify-center items-center">
-        <div className="w-[800px] h-[85px] bg-slate-300 overflow-hidden text-ellipsis px-4 flex-col items-center justify-center">
-          <p className="block w-[100%] break-words">
-            {randomWords.map((word, i) => (
-              <span key={i} className="text-lg">
-                {correctWord[i] ? (
-                  correctWord[i] && (
+    <>
+      {isBlur && (
+        <BlurText
+          className={
+            "absolute top-[50%] translate-y-[-50%] text-white font-semibold w-full text-center "
+          }
+        >
+          Click here and start typing
+        </BlurText>
+      )}
+      <div
+        className={`flex justify-center items-center mb-8 text-white ${
+          isBlur ? "blur-sm" : ""
+        } ease-in-out duration-200 relative`}
+      >
+        <div className="w-[250px] h-[105px] sm:w-[570px] md:w-[700px] lg:w-[800px] bg-transparent flex justify-center items-center">
+          <div className="w-[800px] h-[85px] bg-transparent overflow-hidden text-ellipsis flex-col items-center justify-center">
+            <p className="block w-[100%] break-words">
+              {randomWords.map((word, i) => (
+                <span key={i} className="text-lg">
+                  {correctWord[i] ? (
+                    correctWord[i] && (
+                      <span
+                        className={
+                          correctWord[i]?.isTrue
+                            ? "border-b-4 border-x-0 border-t-0 border-green-400 ease-in-out duration-100"
+                            : "border-b-4 border-x-0 border-t-0 border-red-400 ease-in-out duration-100"
+                        }
+                      >
+                        {word}
+                      </span>
+                    )
+                  ) : i === curWordIndex ? (
                     <span
-                      className={
-                        correctWord[i]?.isTrue ? "bg-green-200" : "bg-red-200"
-                      }
+                      className="bg-black bg-opacity-40 py-1 px-1 ease-in-out duration-100 top-0"
+                      ref={wordRef}
                     >
-                      {word}
+                      {word.split("").map((w, idx) => (
+                        <span key={idx} className={styles(idx, w)}>
+                          {w}
+                        </span>
+                      ))}
+                      {/* {word.split("").map((w, idx) =>
+                      idx === charIndex && curChar !== w ? (
+                        <span key={idx} className="bg-pink-400">
+                          {w}
+                        </span>
+                      ) : idx === charIndex && curChar === w ? (
+                        <span key={idx} className="bg-blue-400">
+                          {w}
+                        </span>
+                      ) : (
+                        <span key={idx}>{w}</span>
+                      )
+                    )} */}
+                      {/* {word} */}
                     </span>
-                  )
-                ) : i === curWordIndex ? (
-                  <span
-                    className="bg-black bg-opacity-30 py-1 px-1"
-                    ref={wordRef}
-                  >
-                    {word}
-                  </span>
-                ) : (
-                  <span className="opacity-50">{word}</span>
-                )}{" "}
-              </span>
-            ))}
-          </p>
+                  ) : (
+                    <span className="opacity-50">{word}</span>
+                  )}{" "}
+                </span>
+              ))}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
