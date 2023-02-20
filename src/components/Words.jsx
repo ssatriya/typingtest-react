@@ -19,10 +19,10 @@ const Words = ({
     }
   }, [correctWord]);
 
-  const styles = (wordIdx, char) => {
-    if (wordIdx === charIndex && curChar !== char) {
+  const styles = (charIdx, char) => {
+    if (charIdx === charIndex && curChar[charIdx] !== char) {
       return " bg-red-400 bg-opacity-50";
-    } else if (wordIdx === charIndex && curChar === char) {
+    } else if (charIdx === charIndex && curChar[charIdx] === char) {
       return " bg-green-400 bg-opacity-50";
     } else {
       return "";

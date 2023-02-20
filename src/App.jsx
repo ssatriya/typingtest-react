@@ -1,4 +1,5 @@
 import randomWords from "random-words";
+import { IoMdRefresh } from "react-icons/io";
 
 import Words from "./components/Words";
 import Inputs from "./components/Inputs";
@@ -6,6 +7,8 @@ import Button from "./components/UI/Button";
 import Container from "./components/UI/Container";
 import { useEffect, useState, useRef } from "react";
 import Result from "./components/Result";
+import Duration from "./components/Duration";
+import Footer from "./components/UI/Footer";
 
 const App = () => {
   const [words, setWords] = useState([]);
@@ -14,7 +17,7 @@ const App = () => {
   const [correctWord, setCorrectWord] = useState([]);
   const [curWordIndex, setCurWordIndex] = useState(0);
   const [status, setStatus] = useState("pending");
-  const [counter, setCounter] = useState(duration);
+  const [counter, setCounter] = useState(0);
   const [inputWords, setInputWords] = useState("");
   const [correct, setCorrect] = useState(0);
   const [incorrect, setIncorrect] = useState(0);
@@ -69,6 +72,10 @@ const App = () => {
     return () => clearTimeout(timeout);
   }, [isBlur, status]);
 
+  useEffect(() => {
+    setCounter(duration);
+  }, [duration]);
+
   const onChangeHandler = () => {
     if (counter === 0) {
       return;
@@ -84,12 +91,16 @@ const App = () => {
         setInputWords("");
         setCharIndex(-1);
         setCurWordIndex((val) => val + 1);
+
+        setCurChar([]);
       } else if (keyCode === 8) {
         setCharIndex((val) => val - 1);
-        setCurChar(words[curIndex][charIndex - 1]);
+
+        setCurChar(curChar.slice(undefined, -1));
       } else {
         setCharIndex((val) => val + 1);
-        setCurChar(key);
+
+        setCurChar((val) => [...val, key]);
       }
     } else {
       return;
@@ -147,51 +158,51 @@ const App = () => {
   };
 
   return (
-    <Container>
-      <Result
-        setDuration={setDuration}
-        duration={duration}
-        counter={counter}
-        correct={correct}
-        incorrect={incorrect}
-        status={status}
-      />
-      <div className="relative">
-        <Words
-          randomWords={words}
-          correctWord={correctWord}
-          curWordIndex={curWordIndex}
-          wordRef={wordRef}
+    <>
+      <Container>
+        <Result
+          setDuration={setDuration}
+          duration={duration}
+          counter={counter}
+          correct={correct}
+          incorrect={incorrect}
           status={status}
-          charIndex={charIndex}
-          curChar={curChar}
-          isBlur={isBlur}
         />
-        <Inputs
-          setIsBlur={setIsBlur}
-          onCharChange={onChangeHandler}
-          inputWords={inputWords}
-          setInputWords={setInputWords}
-          focusRef={inputRef}
-          onKeyUpHandler={onKeyUp}
+        <Duration
+          setDuration={setDuration}
+          duration={duration}
+          status={status}
+          counter={counter}
         />
-      </div>
-      <Button
-        className="mt-8 text-white border border-white px-6 py-4 hover:border-opacity-50"
-        onClick={refreshHandler}
-      >
-        Try Again
-      </Button>
-      <div className="mt-[8rem] flex justify-center items-center">
-        <a
-          href="https://github.com/ssatriya/typingtest-react"
-          className="text-yellow-400"
-          target="__blank"
-        >
-          Visit GitHub for Repo
-        </a>
-      </div>
-    </Container>
+        <div className="mb-4 mt-4 font-semibold text-yellow-400">{counter}</div>
+        <div className="relative">
+          <Words
+            randomWords={words}
+            correctWord={correctWord}
+            curWordIndex={curWordIndex}
+            wordRef={wordRef}
+            status={status}
+            charIndex={charIndex}
+            curChar={curChar}
+            isBlur={isBlur}
+          />
+          <Inputs
+            setIsBlur={setIsBlur}
+            onCharChange={onChangeHandler}
+            inputWords={inputWords}
+            setInputWords={setInputWords}
+            focusRef={inputRef}
+            onKeyUpHandler={onKeyUp}
+          />
+        </div>
+        <div className="flex justify-center items-center">
+          <Button className="mt-8 text-white " onClick={refreshHandler}>
+            <IoMdRefresh className="w-[24px] h-[24px]" />
+          </Button>
+        </div>
+      </Container>
+      <Footer />
+    </>
   );
 };
 
