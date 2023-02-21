@@ -29,6 +29,8 @@ const Words = ({
     }
   };
 
+  console.log(curChar);
+
   return (
     <>
       {isBlur && (

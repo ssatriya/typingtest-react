@@ -151,6 +151,7 @@ const App = () => {
     setCurWordIndex(0);
     setCharIndex(-1);
     setIsBlur(true);
+    setCurChar([]);
 
     inputRef.current.focus();
     inputRef.current.disabled = false;
